@@ -1,6 +1,7 @@
 import os
 import sys
 from dotenv import load_dotenv
+from pyngrok import ngrok
 
 now_dir = os.getcwd()
 sys.path.append(now_dir)
@@ -1609,11 +1610,25 @@ with gr.Blocks(title="RVC WebUI") as app:
                 gr.Markdown(traceback.format_exc())
 
     if config.iscolab:
-        app.queue(concurrency_count=511, max_size=1022).launch(share=True)
+        app.queue(concurrency_count=511, max_size=1022)
+        public_url = ngrok.connect(7865, bind_tls=True) 
+        app.launch(share=True)
+        print(f"ngrok public URL: {public_url}")
+        # app.queue(concurrency_count=511, max_size=1022).launch(share=True)
     else:
-        app.queue(concurrency_count=511, max_size=1022).launch(
+        # app.queue(concurrency_count=511, max_size=1022).launch(
+        #     server_name="0.0.0.0",
+        #     inbrowser=not config.noautoopen,
+        #     server_port=config.listen_port,
+        #     quiet=True,
+        # )
+        app.queue(concurrency_count=511, max_size=1022)
+        public_url = ngrok.connect(7865, bind_tls=True) 
+        app.launch(
             server_name="0.0.0.0",
             inbrowser=not config.noautoopen,
             server_port=config.listen_port,
             quiet=True,
+            share=True
         )
+        print(f"ngrok public URL: {public_url}")

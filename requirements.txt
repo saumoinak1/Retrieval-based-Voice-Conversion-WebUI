@@ -47,3 +47,8 @@ torchfcpe
 ffmpy==0.3.1
 python-dotenv>=1.0.0
 av
+pyngrok
+FreeSimpleGUI
+sounddevice
+pyaudio
+ipython
